@@ -1,3 +1,4 @@
+<meta name="csrf-token" content="{{ csrf_token() }}">
 @extends('layouts.main')
 @section("content")
 <style>
@@ -131,7 +132,7 @@ $lba-max-widths: (
                 </div>
               </div>
               <a class="btn btn-light ColMan shadow-sm" style="font-size:1.3em;width:100%; background-color:white">
-                Добавить/удалить Лицензии
+                Добавить/удалить Лицензии - В разработке
               </a>
               <div class="collapse shadow-sm " id="licenses">
                 <div class="card card-body">
@@ -148,24 +149,25 @@ $lba-max-widths: (
               </a>
               <div class="collapse shadow-sm show" style="padding: 20px 20px">
                 @include("admin.map")
-                <table class="table">
+                <table style="max-width:100%"class="table">
                     <tbody>
                         <tr>
                             <th scope="col">Id</th>
                             <th scope="col">Широта</th>
                             <th scope="col">Долгота</th>
                             <th scope="col">Описание</th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
+                            <th scope="col">Редактировать</th>
+                            <th scope="col">Удалить</th>
                         </tr>
                         @foreach ($markers as $marker)
-                        <tr>
+                        <tr id="marker{{$marker->id}}">
                             <td scope="row">{{$marker->id}}</td>
                             <td>{{$marker->lat}}</td>
                             <td>{{$marker->lng}}</td>
-                            <td>{{$marker->description}}</td>
-                            <td><form method="post" action="deleteMarker"><input type="hidden" name="id" value="{{$marker->id}}"><input type="submit"  class="btn btn-danger"value="Удалить"></form></td>
-                            <td></td>
+                            <td><form method="POST" action="{{'redactMarker'}}"> <input style="width:20vw" name="description" value='{{$marker->description}}'></td>
+                            <td><input type="hidden" name="id" value="{{$marker->id}}">@csrf<input type="submit" style="font-size:1em;" class="btn btn-primary" value="Редактировать"></td></form>
+                            <td><input type="hidden" name="id" value="{{$marker->id}}"><input type="submit"  id="{{$marker->id}}"onclick="deleteMarker(this.id)"  style="font-size:1em;" class="btn btn-danger"value="Удалить"></td>
+                            @csrf
                         </tr>
                         @endforeach
                         
@@ -177,7 +179,30 @@ $lba-max-widths: (
     </div>
   </div>
   <script src="{{asset('/index.js')}}"></script>
-  
+  <script >
+    function deleteMarker(id)
+    {
+      $.ajax(
+        {
+          type: "POST",
+          url : "deleteMarker",
+          data: {
+            id: id
+          },
+          function() {}
+        }
+      );
+
+      document.getElementById("marker" + id).parentNode.removeChild(document.getElementById("marker" + id));
+    }
+  </script>
+  <script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
 
 
 @endsection

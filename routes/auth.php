@@ -46,6 +46,12 @@ Route::middleware('auth')->group(function () {
     Route::post('redactAbout', [AdminController::class, 'redactAbout'])
     ->name('redactAbout');
 
+    Route::post('postTitleEdit', [AdminController::class, 'postTitleEdit'])
+    ->name('postTitleEdit');
+
+    Route::post('postContentEdit', [AdminController::class, 'postContentEdit'])
+    ->name('postContentEdit');
+
     Route::post('addProduct', [AdminController::class, 'addProduct'])
     ->name('addProduct');
     
@@ -54,11 +60,21 @@ Route::middleware('auth')->group(function () {
 
     Route::post('addMarker', [AdminController::class, 'addMarker'])
     ->name('addMarker');
+
+    Route::post('deleteMarker', [AdminController::class, 'deleteMarker'])
+    ->name('deleteMarker');
     
+    Route::post('redactMarker', [AdminController::class, 'redactMarker'])
+    ->name('redactMarker');
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
     
     Route::post('addPost', [AdminController::class, 'addPost'])
     ->name('addPost');
+
+    Route::post('changeService', [AdminController::class, 'changeService'])
+    ->name('changeService');
+    Route::post('deleteService', [AdminController::class, 'deleteService'])
+    ->name('deleteService');
 });

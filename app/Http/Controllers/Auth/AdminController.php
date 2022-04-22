@@ -9,7 +9,8 @@ use App\Models\About;
 use App\Models\Marker;
 use App\Models\Production;
 use App\Models\Service;
-use App\Providers\RouteServiceProvider; 
+use App\Providers\RouteServiceProvider;
+use Laravel\Ui\Presets\React;
 
 class AdminController extends Controller
 {
@@ -27,6 +28,33 @@ class AdminController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
+
+    public function postTitleEdit(Request $request)
+    {
+        $request->validate([
+            'title' => ['required', 'string', 'max:63'],
+            'id' => ['required', 'int'],
+        ]);
+
+        Post::where("id",intval($request->id))->update(["title" => $request->title]);
+
+        return redirect()->intended("/");
+
+    }
+
+    public function postContentEdit(Request $request)
+    {
+        $request->validate([
+            'content' => ['required', 'string', 'max:2043'],
+            'id' => ['required', 'int'],
+        ]);
+
+        Post::where("id",intval($request->id))->update(["content" => $request->content]);
+
+        return redirect()->intended("/");
+
+    }
+
     public function addPost(Request $request)
     {
         $request->validate([
@@ -68,9 +96,54 @@ class AdminController extends Controller
         ]);
 
         return redirect()->intended(RouteServiceProvider::HOME);
+    }
 
+    public function deleteService(Request $request)
+    {
+        $request->validate([
+            'id' => ['required', 'int']
+        ]);
 
+        Service::where("id",intval($request->id))->delete();
 
+        return redirect()->intended("products");
+
+    }
+
+    public function changeService(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'id' => ['required', 'int']
+        ]);
+
+        Service::where("id",intval($request->id))->update(["name" => $request->name]);
+
+        return redirect()->intended("products");
+
+    }
+
+    function redactMarker(Request $request)
+    {
+        $request->validate([
+            'description' => ['required', 'string', 'max:127'],
+            'id' => ['required', 'int']
+        ]);
+
+        Marker::where("id",intval($request->id))->update(["description" => $request->description]);
+
+        return redirect()->intended(RouteServiceProvider::HOME);
+    }
+
+    function deleteMarker(Request $request)
+    {
+        $request->validate([
+            'id' => ['required', 'int']
+        ]);
+
+        Marker::where("id",intval($request->id))->delete();
+
+        return redirect()->intended(RouteServiceProvider::HOME);
     }
 
     public function addMarker(Request $request)

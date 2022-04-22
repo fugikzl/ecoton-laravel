@@ -59,7 +59,22 @@ var center = ol.proj.transform([76.26, 9.93], 'EPSG:4326', 'EPSG:3857'); //initi
             if (feature){
                 var coordinate = evt.coordinate;    //default projection is EPSG:3857 you may want to use ol.proj.transform
 
-            content.innerHTML = feature.get('name');
+            if (feature.get("name") != undefined)
+            {
+                content.innerHTML = feature.get('name');
+                map.getView().setCenter(coordinate);
+
+                map.getView().setZoom(16);
+
+            }
+            else{
+                content.innerHTML = 'Это я';
+                map.getView().setCenter(coordinate);
+
+                map.getView().setZoom(16);
+
+
+            }
             popup.setPosition(coordinate);
             }
             else {

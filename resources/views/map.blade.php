@@ -62,8 +62,12 @@
   <h2>Карта контейнеров</h2>
 
 
-<div id="popup" title="myproject" class="ol-popup"><a href="#" id="popup-closer" class="ol-popup-closer"></a><div id="popup-content"></div></div>
+<div id="popup" title="myproject" class="ol-popup"><a href="#" id="popup-closer" class="ol-popup-closer"><a href="#" id="popup-closer" class="ol-popup-closer"></a><div id="popup-content"></div></div>
     <div id="map" class="map" style="height:500px;"></div>
+    <button id="whereAmI" class="btn btn-success">
+      Где я?
+    </button>
+
     <br>
     <br>
 
@@ -104,10 +108,64 @@ function(){}
 ]
 
 marks.forEach(function(func){func()})
+
+const geolocation = new ol.Geolocation({
+  // enableHighAccuracy must be set to true to have the heading value.
+  trackingOptions: {
+    enableHighAccuracy: true,
+  },
+  projection: view.getProjection(),
+});
+
+geolocation.setTracking(true);
+
+const accuracyFeature = new ol.Feature();
+geolocation.on('change:accuracyGeometry', function () {
+  accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
+});
+
+
+const positionFeature = new ol.Feature();
+positionFeature.setStyle(
+  new ol.style.Style({
+    image: new ol.style.Circle({
+      radius: 2,
+      fill: new ol.style.Fill({
+        color: '#D53816',
+      }),
+      stroke: new ol.style.Stroke({
+        color: '#D53816',
+        width: 15,
+      }),
+    }),
+  })
+);
+
+
+const coordinates = geolocation.getPosition();
+  positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
+geolocation.on('change:position', function () {
+  const coordinates = geolocation.getPosition();
+  positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
+
+  new ol.layer.Vector({
+  map: map,
+  source: new ol.source.Vector({
+    features: [accuracyFeature, positionFeature],
+  }),
+});
+});
+
 </script>     
 
 <div>
   {{$mrks->links()}}
 </div>
+<script>
+  document.getElementById("whereAmI").onclick = function(){
+    map.getView().setCenter(positionFeature.getGeometry().getCoordinates());
 
+    map.getView().setZoom(16);
+  }
+</script>
 @endsection

@@ -61,7 +61,7 @@
         <input id="latt" placeholder="Широта" name="lat" class="form-control"readonly> 
         <input name="description" id="descript" placeholder="Описание" class="form-control"> 
 
-        <input type="submit" class="btn btn-danger" value="Добавить маркер">
+        <input type="submit" class="btn btn-secondary" value="Добавить маркер">
         <br>
 
     </form>
@@ -170,18 +170,18 @@
    // });
   </script>
   <script>
-    function sendP()
-    {
-      if (document.getElementById("latt").value*1 != 0 || document.getElementById("long").value*1 != 0)
-      {
-        $.ajax({
-       type: "POST", url: 'addMarker', 
-       data: { lng: document.getElementById("long").value,
-        lat: document.getElementById("latt").value,
-         _token: document.querySelectorAll("[name=_token]")[5].value, description:document.getElementById("geocode-input").value}
-       ,function(){}})
-    }
-      }
+   /// function sendP()
+   // {
+     // if (document.getElementById("latt").value*1 != 0 || document.getElementById("long").value*1 != 0)
+     // {
+     //   $.ajax({
+     //  type: "POST", url: 'addMarker', 
+     //  data: { lng: document.getElementById("long").value,
+     //   lat: document.getElementById("latt").value,
+     //    _token: document.querySelectorAll("[name=_token]")[5].value, description:document.getElementById("geocode-input").value}
+     //  ,function(){}})
+   // }
+     // }
      
     
   </script>

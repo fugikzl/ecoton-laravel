@@ -50,7 +50,7 @@ $header-max-widths: (
 </style>
 <body>
     <div class="">
-        <nav class="navbar navbar-expand-lg navbar-light shadow-sm " style="background-color: #ffffff;">
+        <nav class="navbar navbar-expand-lg navbar-light shadow-sm  " style="background-color: #ffffff;">
             <div class="container-fluid">
                 <a  class="navbar-brand h2 " style="margin-left: 1em">Kazecotech</a>
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
