@@ -21,7 +21,7 @@
     }
 $container-max-widths: (
   sm: 540px,
-  md: 720px,
+  md: 840px,
   lg: 960px,
   xl: 1140px,
   xxl: 1320px
@@ -50,7 +50,7 @@ $header-max-widths: (
 </style>
 <body>
     <div class="">
-        <nav class="navbar navbar-expand-lg navbar-light shadow-sm  " style="background-color: #ffffff;">
+        <nav class="navbar navbar-expand-lg navbar-light shadow " style="background-color: #ffffff;">
             <div class="container-fluid">
                 <a  class="navbar-brand h2 " style="margin-left: 1em">Kazecotech</a>
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -81,7 +81,7 @@ $header-max-widths: (
         </nav>
     </div>
     <br>
-    <div class="container shadow-sm  d-flex flex-column justify-content-center">
+    <div class="container shadow-sm d-flex flex-column justify-content-center" style="min-width:65%">
        
         @yield('content')
         <br>

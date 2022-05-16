@@ -129,13 +129,13 @@ const positionFeature = new ol.Feature();
 positionFeature.setStyle(
   new ol.style.Style({
     image: new ol.style.Circle({
-      radius: 2,
+      radius: 8,
       fill: new ol.style.Fill({
-        color: '#D53816',
+        color: '#FFFFFF',
       }),
       stroke: new ol.style.Stroke({
         color: '#D53816',
-        width: 15,
+        width: 4,
       }),
     }),
   })
@@ -151,7 +151,7 @@ geolocation.on('change:position', function () {
   new ol.layer.Vector({
   map: map,
   source: new ol.source.Vector({
-    features: [accuracyFeature, positionFeature],
+    features: [positionFeature],
   }),
 });
 });

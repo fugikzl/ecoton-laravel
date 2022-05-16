@@ -37,12 +37,27 @@ var center = ol.proj.transform([76.26, 9.93], 'EPSG:4326', 'EPSG:3857'); //initi
                 features: [
                     new ol.Feature({
                         geometry: new ol.geom.Point(ol.proj.fromLonLat(arr)),
+                        //geometry: new ol.geom.Point(ol.proj.fromLonLat(arr)),
                         name: des
                     })
                 ]
             }),
-            style: pinStyle
+            //style: pinStyle
         });
+
+        as.setStyle(
+            new ol.style.Style({
+              image: new ol.style.Circle({
+                radius: 7,
+                fill: new ol.style.Fill({
+                  color: '#0E7D07',
+                }),
+                stroke: new ol.style.Stroke({
+                    color: '#FFFFFF',
+                    width: 1.5,
+                  }),
+              }),
+            }))
         
         map.addLayer(as);
     }
@@ -51,6 +66,7 @@ var center = ol.proj.transform([76.26, 9.93], 'EPSG:4326', 'EPSG:3857'); //initi
 
         feature = map.forEachFeatureAtPixel(evt.pixel, function(feature,layer) {
 
+            console.log()
             return feature
             
         });
@@ -62,20 +78,32 @@ var center = ol.proj.transform([76.26, 9.93], 'EPSG:4326', 'EPSG:3857'); //initi
             if (feature.get("name") != undefined)
             {
                 content.innerHTML = feature.get('name');
-                map.getView().setCenter(coordinate);
 
-                map.getView().setZoom(16);
+                if(map.getView().getZoom() < 15)
+                {
+                    map.getView().setCenter(feature.getGeometry().getCoordinates());
+                }
+
+                if(map.getView().getZoom() < 13)
+                {map.getView().setZoom(16);}
 
             }
             else{
                 content.innerHTML = 'Это я';
-                map.getView().setCenter(coordinate);
 
-                map.getView().setZoom(16);
+                if(map.getView().getZoom() < 15)
+                {
+                    map.getView().setCenter(feature.getGeometry().getCoordinates());
+
+
+                }
+
+                if(map.getView().getZoom() < 13)
+                {map.getView().setZoom(16);}
 
 
             }
-            popup.setPosition(coordinate);
+            popup.setPosition(feature.getGeometry().getCoordinates());
             }
             else {
                 popup.setPosition(undefined);
